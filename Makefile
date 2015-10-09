@@ -1,9 +1,6 @@
 TESTS = test/*.js
 REPORTER = dot
 
-test: node_modules
-	 mocha
-
 src-cov: clean-cov
 	jscover --no-highlight src src-cov
 
@@ -14,9 +11,6 @@ test-cov: src-cov
 		$(TESTS) \
 		> coverage.html
 
-node_modules: package.json
-	npm install
-
 clean: clean-cov
 
 clean-cov:
@@ -25,7 +19,7 @@ clean-cov:
 
 clean-all: clean
 	rm -rf node_modules
-	
+
 
 .PHONY: test test-cov
-.PHONY: clean clean-cov clean-all 
+.PHONY: clean clean-cov clean-all
