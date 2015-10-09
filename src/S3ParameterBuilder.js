@@ -62,9 +62,8 @@ var createParams = {
         return params;
     },
     deleteObjects:function(bucketName,keys){
-        var objs = [];
-        keys.forEach(function(key){
-            objs.push({Key:key});
+        var objs = keys.map(function(key){
+            return {Key:key};
         });
         return {
             Bucket:bucketName,

@@ -32,8 +32,6 @@ return function ConfigRunner(){
             globRunner.addPattern(patterns[i]);
         }
 
-        //   config.patterns.forEach(globRunner.addPattern);
-
         remoteRunner.run();
         globRunner.run();
 
