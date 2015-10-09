@@ -32,7 +32,7 @@ var createParams = {
             Key: key,
             Body: body,
             ContentType: mimeType,
-            Expires: Math.round(Date.now() / 1000 + 3600 * 24 * 7)
+            Expires: Math.round(Date.now() / 1000 + 3600 * 24 * 365)
         };
     },
     putBucketWebsite:function(bucketName,index,error) {
