@@ -16,7 +16,7 @@ return function GlobRunner(/*SyncedFileCollection*/ collection){
         if(arguments.length > 1){
             addEachPattern(arguments);
         }
-        else if(Object.prototype.toString.call(pattern) === '[object Array]'){
+        else if(Array.isArray(pattern)){
             addEachPattern(pattern);
         }
         else {

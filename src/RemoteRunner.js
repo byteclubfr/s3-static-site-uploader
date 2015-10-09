@@ -1,5 +1,3 @@
-
-
 var strip = /^"|"$/g;
 
 function RemoteRunner(bucketName,collection,s3){
