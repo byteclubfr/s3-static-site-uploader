@@ -37,11 +37,6 @@ function readFile(fileName,opts){
     return deferred.promise;
 }
 
-
-function isArray(path) {
-    return Object.prototype.toString.call(path) === '[object Array]';
-}
-
 function translate(input,fn){
     var arr = [];
     input.forEach(function(val){arr.push(fn(val));});
@@ -58,7 +53,7 @@ function bindArg2(fn,arg2){
 
 function getFileContents(path,encoding){
     var _readFile = bindArg2(readFile,encoding);
-    if( isArray(path)){
+    if(Array.isArray(path)){
         return Q.all(translate(path,_readFile));
     }
     return readFile(path,encoding);
@@ -73,7 +68,7 @@ function getContentHashPromises(paths){
 }
 
 function getContentHash(path){
-    if(isArray(path)){
+    if(Array.isArray(path)){
         return Q.all(getContentHashPromises(path));
     }
     return readFile(path).then(md5);
