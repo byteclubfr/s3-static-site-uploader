@@ -48,7 +48,7 @@ return function SyncedFile (path){
                     }
                     else {
                         resolveUpload(true);
-                        resolveAction('upload')
+                        resolveAction('upload');
                     }
                 },
                 function(reason){
@@ -56,7 +56,7 @@ return function SyncedFile (path){
                     action.reject(reason);
                     throw reason;
                 }
-            )
+            );
         }
         else if(exists){
             resolveUpload(true);

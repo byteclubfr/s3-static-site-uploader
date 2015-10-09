@@ -56,7 +56,7 @@ return function GlobRunner(/*SyncedFileCollection*/ collection){
 
     this.addPattern = addPattern;
     this.getPatterns = patterns.slice.bind(patterns);
-}
+};
 }
 
 var GlobRunner = TestHook();

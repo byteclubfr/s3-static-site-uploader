@@ -38,7 +38,7 @@ function readFile(fileName,opts){
 }
 
 function promise_translate(input,fn){
-    return input.map(function(val){return val.then(fn);})
+    return input.map(function(val){return val.then(fn);});
 }
 
 function getFileContents(path,encoding){

@@ -1,8 +1,6 @@
 function TestHook(Q, paramBuilder){
     Q = Q || require('q');
-
-    paramBuilder = paramBuilder || require('./S3ParameterBuilder.js')
-
+    paramBuilder = paramBuilder || require('./S3ParameterBuilder.js');
 
 
 function S3PromiseWrapper(s3Instance){
@@ -12,7 +10,7 @@ function S3PromiseWrapper(s3Instance){
 S3PromiseWrapper.prototype.checkBucketName = function(bucketName){
     var _defer = Q.defer();
     this.headBucket(bucketName).then(
-        function(result){
+        function(){
             _defer.resolve('owned');
         },
         function(reason){
@@ -33,16 +31,16 @@ S3PromiseWrapper.prototype.checkBucketName = function(bucketName){
 
 S3PromiseWrapper.createReadAllBucketPolicy = function(bucketName){
     return {
-        "Version": "2008-10-17",
-        "Statement": [
+        'Version': '2008-10-17',
+        'Statement': [
             {
-                "Sid": "PublicReadForGetBucketObjects",
-                "Effect": "Allow",
-                "Principal": {
-                    "AWS": "*"
+                'Sid': 'PublicReadForGetBucketObjects',
+                'Effect': 'Allow',
+                'Principal': {
+                    'AWS': '*'
                 },
-                "Action": "s3:GetObject",
-                "Resource": "arn:aws:s3:::" + bucketName + "/*"
+                'Action': 's3:GetObject',
+                'Resource': 'arn:aws:s3:::' + bucketName + '/*'
             }
         ]
     };
@@ -52,7 +50,7 @@ function addParameterFunction(functionName){
     S3PromiseWrapper.prototype[functionName] = function(){
         var params = paramBuilder[functionName].apply(this,arguments);
         return Q.ninvoke(this._s3,functionName,params);
-    }
+    };
 }
 
 for(var i in paramBuilder){

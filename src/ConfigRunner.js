@@ -42,9 +42,9 @@ return function ConfigRunner(){
             actions.forEach(function(obj){
                 switch(obj.action){
                     case 'delete':
-
                         deletes.push(obj.path);
                         break;
+
                     case 'upload':
                         fileUtils.getContents(obj.path).then(function(contents){
                             console.log('uploading: ' + obj.path);
@@ -61,9 +61,9 @@ return function ConfigRunner(){
             });
             if(deletes.length !== 0) {
                 console.log('deleting the following: ');
-                deletes.forEach(function(path){console.log('\t' + path)});
+                deletes.forEach(function(path){console.log('\t' + path);});
                 s3Wrapper.deleteObjects(config.bucketName,deletes).then(
-                    function(){console.log('delete successful')},
+                    function(){console.log('delete successful');},
                     function(reason){console.log('delete failed ' + reason); console.log(reason); });
             }
         });
