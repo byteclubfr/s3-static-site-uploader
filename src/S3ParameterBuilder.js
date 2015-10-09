@@ -27,12 +27,12 @@ var createParams = {
     putObject:function(bucketName, key, body, mimeType){
         mimeType = mimeType || mime.lookup(key);
 
-        // console.log(body);
         return {
             Bucket:bucketName,
             Key: key,
-            Body: body,//new Buffer(body),
-            ContentType: mimeType
+            Body: body,
+            ContentType: mimeType,
+            Expires: Math.round(Date.now() / 1000 + 3600 * 24 * 7)
         };
     },
     putBucketWebsite:function(bucketName,index,error) {

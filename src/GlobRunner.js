@@ -5,6 +5,7 @@ function TestHook(Glob,Q){
 return function GlobRunner(/*SyncedFileCollection*/ collection){
     var patterns = [];
     var globs = [];
+    var globsDone = [];
 
     function addEachPattern(arrayLike){
         for(var i =0; i < arrayLike.length; i++){
@@ -19,10 +20,8 @@ return function GlobRunner(/*SyncedFileCollection*/ collection){
         else if(Array.isArray(pattern)){
             addEachPattern(pattern);
         }
-        else {
-            if(!~patterns.indexOf(pattern)){
-                patterns.push(pattern);
-            }
+        else if(!~patterns.indexOf(pattern)){
+            patterns.push(pattern);
         }
     }
 
@@ -30,15 +29,14 @@ return function GlobRunner(/*SyncedFileCollection*/ collection){
         collection.foundFile(filePath);
     }
 
-    var globsDone=[];
-
     function createGlob(pattern){
-        var glob =  new Glob(pattern);
+        var glob = new Glob(pattern);
+        var defer = Q.defer();
+
         globs.push(glob);
 
         glob.on('match',onMatch);
 
-        var defer = Q.defer();
         globsDone.push(defer.promise);
 
         glob.on('end',defer.resolve);
