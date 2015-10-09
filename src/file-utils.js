@@ -41,13 +41,9 @@ function promise_translate(input,fn){
     return input.map(function(val){return val.then(fn);})
 }
 
-function bindArg2(fn,arg2){
-    return function (val){return fn(val,arg2);}
-}
-
 function getFileContents(path,encoding){
-    var _readFile = bindArg2(readFile,encoding);
     if(Array.isArray(path)){
+        var _readFile = _.partial(readFile,_,encoding);
         return Q.all(path.map(_readFile));
     }
     return readFile(path,encoding);
