@@ -1,7 +1,8 @@
-var Q = require('q');
-
 var fs = require('fs');
 var crypto = require('crypto');
+var Q = require('q');
+var _ = require('lodash');
+
 var MAX_OPEN = 200;
 var openCount = 0;
 var cache = [];
@@ -11,7 +12,6 @@ function _readNextFile(){
         openCount++;
         var nextCall = cache[0];
         cache = cache.slice(1);
-
 
         fs.readFile(nextCall.fileName,nextCall.options,function(err,result){
             try {
@@ -37,14 +37,8 @@ function readFile(fileName,opts){
     return deferred.promise;
 }
 
-function translate(input,fn){
-    var arr = [];
-    input.forEach(function(val){arr.push(fn(val));});
-    return arr;
-}
-
 function promise_translate(input,fn){
-    return translate(input,function(val){return val.then(fn);})
+    return input.map(function(val){return val.then(fn);})
 }
 
 function bindArg2(fn,arg2){
@@ -54,7 +48,7 @@ function bindArg2(fn,arg2){
 function getFileContents(path,encoding){
     var _readFile = bindArg2(readFile,encoding);
     if(Array.isArray(path)){
-        return Q.all(translate(path,_readFile));
+        return Q.all(path.map(_readFile));
     }
     return readFile(path,encoding);
 }
@@ -64,7 +58,7 @@ function md5(str){
 }
 
 function getContentHashPromises(paths){
-    return promise_translate( translate(paths,readFile),md5);
+    return promise_translate(paths.map(_.ary(readFile, 1)),md5);
 }
 
 function getContentHash(path){
