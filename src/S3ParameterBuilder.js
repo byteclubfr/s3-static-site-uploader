@@ -27,13 +27,20 @@ var createParams = {
     putObject:function(bucketName, key, body, mimeType){
         mimeType = mimeType || mime.lookup(key);
 
-        return {
+        var o = {
             Bucket:bucketName,
             Key: key,
             Body: body,
             ContentType: mimeType,
             Expires: Math.round(Date.now() / 1000 + 3600 * 24 * 365)
         };
+        // must match find regex in site/package.json#gzip
+        if (key.match(/\.css|\.html|\.js|\.svg$/)) {
+            o.ContentEncoding = 'gzip';
+        }
+
+        return o;
+
     },
     putBucketWebsite:function(bucketName,index,error) {
         var params = {
